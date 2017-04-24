@@ -110,6 +110,99 @@ public class TestSourceLineAnalyzer {
 		assertThat("Full line 2", comment, equalTo(analyzer.getComment()));
 
 	}// testLabels
+	
+		@Test
+	public void testInstructions() {
+		analyzer.analyze("; comment");
+		assertThat("No Labels line 1", true, equalTo(analyzer.isLineActive()));
+		assertThat("No Labels line 2", false, equalTo(analyzer.hasLabel()));
+
+		String label = "@1234";
+		String sourceLine = label + " Some interesting code";
+		analyzer.analyze(sourceLine);
+		assertThat("No Labels line 3", true, equalTo(analyzer.isLineActive()));
+		assertThat("No Labels line 4", false, equalTo(analyzer.hasLabel()));
+
+		label = "@1234:";
+		sourceLine = label + " Some interesting code";
+		analyzer.analyze(sourceLine);
+		assertThat("Labels line 1", true, equalTo(analyzer.isLineActive()));
+		assertThat("Labels line 2", true, equalTo(analyzer.hasLabel()));
+		assertThat("Labels line 3", label, equalTo(analyzer.getLabel()));
+
+		String lineNumber = "1234";
+		label = "Label1:";
+		String comment = "; a comment";
+		String opCode = "ADC";
+		String instruction = opCode + " A, (IX+3)";
+		sourceLine = lineNumber +" " + label + instruction + comment;
+		analyzer.analyze(sourceLine);
+		assertThat("Full line 1", true, equalTo(analyzer.isLineActive()));
+		assertThat("Full line 2", true, equalTo(analyzer.hasLineNumber()));
+		assertThat("Full line 3", true, equalTo(analyzer.hasLabel()));
+		assertThat("Full line 4", true, equalTo(analyzer.hasComment()));
+		assertThat("Full line 5", lineNumber, equalTo(analyzer.getLineNumber()));
+		assertThat("Full line 6", label, equalTo(analyzer.getLabel()));
+		assertThat("Full line 7", comment, equalTo(analyzer.getComment()));
+		
+		assertThat("Full line 8", true, equalTo(analyzer.hasInstruction()));
+		assertThat("Full line 9", opCode, equalTo(analyzer.getInstruction()));
+		
+	}// testOpCodes
+		
+		@Test
+		public void testSubOpCodes() {
+			String lineNumber = "1234";
+			String label = "Label1:";
+			String comment = "; a comment";
+			String opCode = "ADC";
+			String arguments = " A, (IX+8)";
+			String sourceLine = lineNumber +" " + label +" " + opCode + " " + arguments  +" " + comment;
+			analyzer.analyze(sourceLine);
+			assertThat("Full line 1", true, equalTo(analyzer.hasLineNumber()));
+			assertThat("Full line 2", true, equalTo(analyzer.hasLabel()));
+			assertThat("Full line 3", true, equalTo(analyzer.hasComment()));
+
+			
+			assertThat("Full line 4", true, equalTo(analyzer.hasInstruction()));
+			assertThat("Full line 5", opCode, equalTo(analyzer.getInstruction()));
+			
+			sourceLine = opCode + " " + arguments;
+			analyzer.analyze(sourceLine);
+			assertThat("code & args 1", true, equalTo(analyzer.hasInstruction()));
+			assertThat("code & args 2", opCode, equalTo(analyzer.getInstruction()));	
+			assertThat("sub 1","ADC_1",equalTo(analyzer.getSubOpCode()));
+			
+			arguments = " A, B)";
+			sourceLine = opCode + " " + arguments;
+			analyzer.analyze(sourceLine);
+			assertThat("code & B 1", true, equalTo(analyzer.hasInstruction()));
+			assertThat("code & B 2", opCode, equalTo(analyzer.getInstruction()));	
+			assertThat("sub B","ADC_2",equalTo(analyzer.getSubOpCode()));
+			
+			arguments = " A, (HL)";
+			sourceLine = opCode + " " + arguments;
+			analyzer.analyze(sourceLine);
+			assertThat("code & (HL) 1", true, equalTo(analyzer.hasInstruction()));
+			assertThat("code & (HL) 2", opCode, equalTo(analyzer.getInstruction()));	
+			assertThat("sub (HL)","ADC_2",equalTo(analyzer.getSubOpCode()));
+
+			arguments = " A, 1+2";
+			sourceLine = opCode + " " + arguments;
+			analyzer.analyze(sourceLine);
+			assertThat("code & 1+2 1", true, equalTo(analyzer.hasInstruction()));
+			assertThat("code & 1+2 2", opCode, equalTo(analyzer.getInstruction()));	
+			assertThat("sub 1+2","ADC_3",equalTo(analyzer.getSubOpCode()));
+
+			arguments = " A";
+			sourceLine = opCode + " " + arguments;
+			analyzer.analyze(sourceLine);
+			assertThat("code & 1+2 1", true, equalTo(analyzer.hasInstruction()));
+			assertThat("code & 1+2 2", opCode, equalTo(analyzer.getInstruction()));	
+			assertThat("sub 1+2",InstructionSet.BAD_OPCODE,equalTo(analyzer.getSubOpCode()));
+	
+		}//testSubOpCodes
+		
 
 }// class TestSourceLineAnalyzer
 /*
