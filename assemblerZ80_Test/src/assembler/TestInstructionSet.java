@@ -46,20 +46,21 @@ SourceLineAnalyzer analyzer;
 		assertThat("ADC  4", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("ADC  4", "ADC_4", equalTo(analyzer.getSubOpCode()));
 		
-		analyzer.analyze(makeLine( "ADC","A",""));
+		analyzer.analyze(makeLine( "ADC","A"));
 		assertThat("ADC  BAD_OPCODE 1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 1", InstructionSet.BAD_OPCODE, equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  BAD_OPCODE 1", null, equalTo(analyzer.getSubOpCode()));
 		
-		analyzer.analyze(makeLine( "ADC","HL",""));
+		analyzer.analyze(makeLine( "ADC","HL"));
 		assertThat("ADC  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 2", InstructionSet.BAD_OPCODE, equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
 		
-		analyzer.analyze(makeLine( "ADC","",""));
+		analyzer.analyze(makeLine( "ADC"));
 		assertThat("ADC  BAD_OPCODE 3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 3", InstructionSet.BAD_OPCODE, equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  BAD_OPCODE 3", null, equalTo(analyzer.getSubOpCode()));
 		
 		
 	}//testADC
+	
 	@Test
 	public void testADD() {
 		
@@ -91,36 +92,73 @@ SourceLineAnalyzer analyzer;
 		assertThat("ADD  5", "ADD_5", equalTo(analyzer.getSubOpCode()));
 		
 		
-		analyzer.analyze(makeLine( "ADD","A",""));
+		analyzer.analyze(makeLine( "ADD","A"));
 		assertThat("ADD  BAD_OPCODE 1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 1", InstructionSet.BAD_OPCODE, equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  BAD_OPCODE 1", null, equalTo(analyzer.getSubOpCode()));
 		
-		analyzer.analyze(makeLine( "ADD","HL",""));
+		analyzer.analyze(makeLine( "ADD","HL"));
 		assertThat("ADD  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADD  BAD_OPCODE 2", InstructionSet.BAD_OPCODE, equalTo(analyzer.getSubOpCode()));
+		assertThat("ADD  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
 		
-		analyzer.analyze(makeLine( "ADD","IX",""));
+		analyzer.analyze(makeLine( "ADD","IX"));
 		assertThat("ADD  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADD  BAD_OPCODE 2", InstructionSet.BAD_OPCODE, equalTo(analyzer.getSubOpCode()));
+		assertThat("ADD  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
 		
 		
-		analyzer.analyze(makeLine( "ADD","",""));
+		analyzer.analyze(makeLine( "ADD"));
 		assertThat("ADD  BAD_OPCODE 3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADD  BAD_OPCODE 3", InstructionSet.BAD_OPCODE, equalTo(analyzer.getSubOpCode()));
+		assertThat("ADD  BAD_OPCODE 3", null, equalTo(analyzer.getSubOpCode()));
 		
 		
 	}//testADD
 	
+	@Test
+	public void testAND() {
+		String line = makeLine( "AND","(IX+3)");
+		analyzer.analyze(line);
+		assertThat("AND  1", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("AND  2", "AND_1", equalTo(analyzer.getSubOpCode()));
+
+		 line = makeLine( "AND","(HL)");
+		analyzer.analyze(line);
+		assertThat("AND  3", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("AND  4", "AND_2", equalTo(analyzer.getSubOpCode()));
+
+		 line = makeLine( "AND","1 + 2");
+		analyzer.analyze(line);
+		assertThat("AND  5", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("AND  6", "AND_3", equalTo(analyzer.getSubOpCode()));
+
+	}//testAND
+	
+	@Test
+	public void testCCF() {
+		String line = makeLine( "CCF","A","(IX+3)");
+		analyzer.analyze(line);
+		assertThat("CCF  1", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("CCF  1", "CCF_0", equalTo(analyzer.getSubOpCode()));
+
+	}//testCCF
+	
+//--------------------------------------------------------------------------------------------------	
 	private String makeLine(String instruction,String arg1, String arg2){
 		this.instruction = instruction;
 		this.arg1 = arg1;
 		this.arg2 = arg2;
-		String ans = ans = (this.instruction + " " + this.arg1).trim();
+		String ans = (this.instruction + " " + this.arg1).trim();
 		if(arg2.trim()!=""){
 			ans = (this.instruction + " " + this.arg1  + "," + arg2).trim();
 		}//
-		System.out.println(ans);
+		//System.out.println(ans);
 		return ans;
+	}//makeLine
+	
+	private String makeLine(String instruction,String arg1){	
+		return makeLine(instruction,arg1,"");
+	}//makeLine
+	
+	private String makeLine(String instruction){	
+		return makeLine(instruction,"","");
 	}//makeLine
 
 }

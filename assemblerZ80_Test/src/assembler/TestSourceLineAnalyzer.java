@@ -197,9 +197,10 @@ public class TestSourceLineAnalyzer {
 			arguments = " A";
 			sourceLine = opCode + " " + arguments;
 			analyzer.analyze(sourceLine);
+			
 			assertThat("code & 1+2 1", true, equalTo(analyzer.hasInstruction()));
 			assertThat("code & 1+2 2", opCode, equalTo(analyzer.getInstruction()));	
-			assertThat("sub 1+2",InstructionSet.BAD_OPCODE,equalTo(analyzer.getSubOpCode()));
+			assertThat("sub 1+2",null,equalTo(analyzer.getSubOpCode()));
 	
 		}//testSubOpCodes
 		
