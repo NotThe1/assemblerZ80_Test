@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class TestInstructionSet {
+public class TestInstructionSet_1 {
 InstructionSet is;
 String instruction;
 String subOpCode;
@@ -18,6 +18,8 @@ SourceLineAnalyzer analyzer;
 	@Before
 	public void setUp() throws Exception {
 		analyzer = new SourceLineAnalyzer();
+		analyzer.analyze(" ADC   A   ,  A B  c D");
+
 	}//setUp
 
 	@Test
@@ -25,38 +27,38 @@ SourceLineAnalyzer analyzer;
 		
 		analyzer.analyze(makeLine( "ADC","A","(IX+3)"));
 		assertThat("ADC  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  1", "ADC_1", equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  2", "ADC_1", equalTo(analyzer.getSubOpCode()));
 
 		
 		analyzer.analyze(makeLine( "ADC","A","B"));
-		assertThat("ADC  2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  2", "ADC_2", equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  3", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("ADC  4", "ADC_2", equalTo(analyzer.getSubOpCode()));
 		
 		analyzer.analyze(makeLine( "ADC","A","(HL)"));
-		assertThat("ADC  2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  2", "ADC_2", equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  5", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("ADC  6", "ADC_2", equalTo(analyzer.getSubOpCode()));
 		
 		analyzer.analyze(makeLine( "ADC","A","1+2"));
-		assertThat("ADC  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  3", "ADC_3", equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  7", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("ADC  8", "ADC_3", equalTo(analyzer.getSubOpCode()));
 		
 		
 		
 		analyzer.analyze(makeLine( "ADC","HL","SP"));
-		assertThat("ADC  4", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  4", "ADC_4", equalTo(analyzer.getSubOpCode()));
+		assertThat("ADC  9", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("ADC  10", "ADC_4", equalTo(analyzer.getSubOpCode()));
 		
-		analyzer.analyze(makeLine( "ADC","A"));
-		assertThat("ADC  BAD_OPCODE 1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 1", null, equalTo(analyzer.getSubOpCode()));
-		
-		analyzer.analyze(makeLine( "ADC","HL"));
-		assertThat("ADC  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
-		
-		analyzer.analyze(makeLine( "ADC"));
-		assertThat("ADC  BAD_OPCODE 3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 3", null, equalTo(analyzer.getSubOpCode()));
+//		analyzer.analyze(makeLine( "ADC","A"));
+//		assertThat("ADC  BAD_OPCODE 1", instruction, equalTo(analyzer.getInstruction()));
+//		assertThat("ADC  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
+//		
+//		analyzer.analyze(makeLine( "ADC","HL"));
+//		assertThat("ADC  BAD_OPCODE 3", instruction, equalTo(analyzer.getInstruction()));
+//		assertThat("ADC  BAD_OPCODE 4", null, equalTo(analyzer.getSubOpCode()));
+//		
+//		analyzer.analyze(makeLine( "ADC"));
+//		assertThat("ADC  BAD_OPCODE 5", instruction, equalTo(analyzer.getInstruction()));
+//		assertThat("ADC  BAD_OPCODE 6", null, equalTo(analyzer.getSubOpCode()));
 		
 		
 	}//testADC
@@ -92,22 +94,22 @@ SourceLineAnalyzer analyzer;
 		assertThat("ADD  5", "ADD_5", equalTo(analyzer.getSubOpCode()));
 		
 		
-		analyzer.analyze(makeLine( "ADD","A"));
-		assertThat("ADD  BAD_OPCODE 1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADC  BAD_OPCODE 1", null, equalTo(analyzer.getSubOpCode()));
-		
-		analyzer.analyze(makeLine( "ADD","HL"));
-		assertThat("ADD  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADD  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
-		
-		analyzer.analyze(makeLine( "ADD","IX"));
-		assertThat("ADD  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADD  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
-		
-		
-		analyzer.analyze(makeLine( "ADD"));
-		assertThat("ADD  BAD_OPCODE 3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("ADD  BAD_OPCODE 3", null, equalTo(analyzer.getSubOpCode()));
+//		analyzer.analyze(makeLine( "ADD","A"));
+//		assertThat("ADD  BAD_OPCODE 1", instruction, equalTo(analyzer.getInstruction()));
+//		assertThat("ADC  BAD_OPCODE 1", null, equalTo(analyzer.getSubOpCode()));
+//		
+//		analyzer.analyze(makeLine( "ADD","HL"));
+//		assertThat("ADD  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
+//		assertThat("ADD  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
+//		
+//		analyzer.analyze(makeLine( "ADD","IX"));
+//		assertThat("ADD  BAD_OPCODE 2", instruction, equalTo(analyzer.getInstruction()));
+//		assertThat("ADD  BAD_OPCODE 2", null, equalTo(analyzer.getSubOpCode()));
+//		
+//		
+//		analyzer.analyze(makeLine( "ADD"));
+//		assertThat("ADD  BAD_OPCODE 3", instruction, equalTo(analyzer.getInstruction()));
+//		assertThat("ADD  BAD_OPCODE 3", null, equalTo(analyzer.getSubOpCode()));
 		
 		
 	}//testADD
@@ -138,7 +140,7 @@ SourceLineAnalyzer analyzer;
 		assertThat("BIT  1", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("BIT  2", "BIT_1", equalTo(analyzer.getSubOpCode()));
 
-		 line = makeLine( "BIT", "1+2", "D");
+		 line = makeLine( "BIT", "(1+2)", "D");
 		analyzer.analyze(line);
 		assertThat("BIT  3", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("BIT  4", "BIT_2", equalTo(analyzer.getSubOpCode()));
@@ -161,7 +163,7 @@ SourceLineAnalyzer analyzer;
 	
 	@Test
 	public void testCCF() {
-		String line = makeLine( "CCF","A","(IX+3)");
+		String line = makeLine( "CCF","; comment");
 		analyzer.analyze(line);
 		assertThat("CCF  1", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("CCF  1", "CCF_0", equalTo(analyzer.getSubOpCode()));
@@ -194,20 +196,20 @@ SourceLineAnalyzer analyzer;
 		assertThat("DEC  1", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("DEC  2", "DEC_1", equalTo(analyzer.getSubOpCode()));
 
-		 line = makeLine( "DEC","H");
-		analyzer.analyze(line);
-		assertThat("DEC  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("DEC  4", "DEC_2", equalTo(analyzer.getSubOpCode()));
-
 		 line = makeLine( "DEC","BC");
 		analyzer.analyze(line);
 		assertThat("DEC  5", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("DEC  6", "DEC_3", equalTo(analyzer.getSubOpCode()));
+		assertThat("DEC  6", "DEC_2", equalTo(analyzer.getSubOpCode()));
 
 		 line = makeLine( "DEC","IY");
 		analyzer.analyze(line);
 		assertThat("DEC  7", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("DEC  8", "DEC_4", equalTo(analyzer.getSubOpCode()));
+		assertThat("DEC  8", "DEC_3", equalTo(analyzer.getSubOpCode()));
+		
+		 line = makeLine( "DEC","H");
+		analyzer.analyze(line);
+		assertThat("DEC  3", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("DEC  4", "DEC_4", equalTo(analyzer.getSubOpCode()));
 
 	}//testDEC
 	
@@ -272,20 +274,20 @@ SourceLineAnalyzer analyzer;
 		assertThat("INC  1", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("INC  2", "INC_1", equalTo(analyzer.getSubOpCode()));
 
-		 line = makeLine( "INC","L");
-		analyzer.analyze(line);
-		assertThat("INC  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("INC  4", "INC_2", equalTo(analyzer.getSubOpCode()));
-
 		 line = makeLine( "INC","DE");
 		analyzer.analyze(line);
 		assertThat("INC  5", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("INC  6", "INC_3", equalTo(analyzer.getSubOpCode()));
+		assertThat("INC  6", "INC_2", equalTo(analyzer.getSubOpCode()));
 
 		 line = makeLine( "INC","IY");
 		analyzer.analyze(line);
 		assertThat("INC  7", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("INC  8", "INC_4", equalTo(analyzer.getSubOpCode()));
+		assertThat("INC  8", "INC_3", equalTo(analyzer.getSubOpCode()));
+
+		 line = makeLine( "INC","L");
+		analyzer.analyze(line);
+		assertThat("INC  3", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("INC  4", "INC_4", equalTo(analyzer.getSubOpCode()));
 
 	}//testDEC
 	
