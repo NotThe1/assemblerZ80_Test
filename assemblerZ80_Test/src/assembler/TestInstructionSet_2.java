@@ -110,31 +110,6 @@ public class TestInstructionSet_2 {
 
 	}//testIND_BCDE
 	
-//	@Test
-//	public void testIND_HL() {
-//		String line = makeLine( "LD","(HL)","C");
-//		analyzer.analyze(line);
-//		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-//		assertThat("LD  2", "LD_20", equalTo(analyzer.getSubOpCode()));
-//
-//		 line = makeLine( "LD","HL","(expression)");
-//		analyzer.analyze(line);
-//		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-//		assertThat("LD  4", "LD_21", equalTo(analyzer.getSubOpCode()));
-//
-//		 line = makeLine( "LD","A","A");
-//		analyzer.analyze(line);
-//		assertThat("LD  5", instruction, equalTo(analyzer.getInstruction()));
-//		assertThat("LD  6", "LD_20", equalTo(analyzer.getSubOpCode()));
-//		
-//		 line = makeLine( "LD","A","(expression)");
-//		analyzer.analyze(line);
-//		assertThat("LD  7", instruction, equalTo(analyzer.getInstruction()));
-//		assertThat("LD  8", "LD_21", equalTo(analyzer.getSubOpCode()));
-//
-//
-//	}//testIND_HL
-
 	@Test
 	public void testIND_XYd() {
 		String line = makeLine( "LD","(IX+4)","B");
@@ -208,17 +183,12 @@ public class TestInstructionSet_2 {
 		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("LD  2", "LD_20", equalTo(analyzer.getSubOpCode()));
 
-		 line = makeLine( "LD","D","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  4", "LD_22", equalTo(analyzer.getSubOpCode()));
-
-		 line = makeLine( "LD","B","A");
+		 line = makeLine( "LD","B","M");
 		analyzer.analyze(line);
 		assertThat("LD  5", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("LD  6", "LD_20", equalTo(analyzer.getSubOpCode()));
 		
-		 line = makeLine( "LD","C","(expression)");
+		 line = makeLine( "LD","C","expression");
 		analyzer.analyze(line);
 		assertThat("LD  7", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("LD  8", "LD_22", equalTo(analyzer.getSubOpCode()));
@@ -228,24 +198,21 @@ public class TestInstructionSet_2 {
 		assertThat("LD  9", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("LD  10", "LD_21", equalTo(analyzer.getSubOpCode()));
 
-
 	}//testR8
 
+	@Test
+	public void testIND_HL() {
+		String line = makeLine( "LD","(HL)","B");
+		analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("LD  2", "LD_23", equalTo(analyzer.getSubOpCode()));
 
+		 line = makeLine( "LD","(HL)","expression");
+		analyzer.analyze(line);
+		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("LD  4", "LD_24", equalTo(analyzer.getSubOpCode()));
 
-//	@Test
-//	public void testIND_HL() {
-//		String line = makeLine( "LD","(HL)","B");
-//		analyzer.analyze(line);
-//		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-//		assertThat("LD  2", "LD_2", equalTo(analyzer.getSubOpCode()));
-//
-//		 line = makeLine( "LD","(HL)","expression");
-//		analyzer.analyze(line);
-//		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-//		assertThat("LD  4", "LD_3", equalTo(analyzer.getSubOpCode()));
-//
-//	}//testIND_HL
+	}//testIND_HL
 
 
 	// --------------------------------------------------------------------------------------------------

@@ -260,10 +260,15 @@ SourceLineAnalyzer analyzer;
 		assertThat("IN  1", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("IN  2", "IN_1", equalTo(analyzer.getSubOpCode()));
 		
-		 line = makeLine( "IN","B","expression");
+		 line = makeLine( "IN","A","(expression)");
 		analyzer.analyze(line);
 		assertThat("IN  3", instruction, equalTo(analyzer.getInstruction()));
 		assertThat("IN  4", "IN_2", equalTo(analyzer.getSubOpCode()));
+		
+		 line = makeLine( "IN","B","(C)");
+		analyzer.analyze(line);
+		assertThat("IN  3", instruction, equalTo(analyzer.getInstruction()));
+		assertThat("IN  4", "IN_3", equalTo(analyzer.getSubOpCode()));
 		
 	}//testDEC
 	
