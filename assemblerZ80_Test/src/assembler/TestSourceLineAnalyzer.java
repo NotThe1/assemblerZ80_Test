@@ -28,7 +28,7 @@ public class TestSourceLineAnalyzer {
 		assertThat("Line Number  1", true, equalTo(analyzer.isLineActive()));
 		assertThat("Line Number 2", false, equalTo(analyzer.hasComment()));
 		assertThat("Line Number 3", true, equalTo(analyzer.hasLineNumber()));
-		assertThat("Line Number 4", lineNumber, equalTo(analyzer.getLineNumber()));
+		assertThat("Line Number 4", lineNumber, equalTo(analyzer.getLineNumberStr()));
 
 		lineNumber = "1234";
 		sourceLine = lineNumber + "XX";
@@ -59,7 +59,7 @@ public class TestSourceLineAnalyzer {
 		assertThat("Simple Comment  3", true, equalTo(analyzer.hasComment()));
 		assertThat("Simple Comment  4", comment, equalTo(analyzer.getComment()));
 		assertThat("Simple Comment  5", true, equalTo(analyzer.hasLineNumber()));
-		assertThat("Simple Comment  6", lineNumber, equalTo(analyzer.getLineNumber()));
+		assertThat("Simple Comment  6", lineNumber, equalTo(analyzer.getLineNumberStr()));
 
 		comment = "; a line that is all comment";
 		sourceLine = "Some interesting code ' with an enclosed ; 'in it" + comment;
@@ -108,7 +108,7 @@ public class TestSourceLineAnalyzer {
 		assertThat("Full line 2", true, equalTo(analyzer.hasLineNumber()));
 		assertThat("Full line 2", true, equalTo(analyzer.hasLabel()));
 		assertThat("Full line 2", true, equalTo(analyzer.hasComment()));
-		assertThat("Full line 2", lineNumber, equalTo(analyzer.getLineNumber()));
+		assertThat("Full line 2", lineNumber, equalTo(analyzer.getLineNumberStr()));
 		assertThat("Full line 2", label, equalTo(analyzer.getLabel()));
 		assertThat("Full line 2", comment, equalTo(analyzer.getComment()));
 
@@ -144,7 +144,7 @@ public class TestSourceLineAnalyzer {
 		assertThat("Full line 2", true, equalTo(analyzer.hasLineNumber()));
 		assertThat("Full line 3", true, equalTo(analyzer.hasLabel()));
 		assertThat("Full line 4", true, equalTo(analyzer.hasComment()));
-		assertThat("Full line 5", lineNumber, equalTo(analyzer.getLineNumber()));
+		assertThat("Full line 5", lineNumber, equalTo(analyzer.getLineNumberStr()));
 		assertThat("Full line 6", label, equalTo(analyzer.getLabel()));
 		assertThat("Full line 7", comment, equalTo(analyzer.getComment()));
 
@@ -242,6 +242,38 @@ public class TestSourceLineAnalyzer {
 		assertThat("0 arg 8", argument2, equalTo(analyzer.getArgument2()));
 
 	}// testArguments
+	
+	@Test
+	public void testOpCodeSize() {
+		
+
+		analyzer.analyze("  ADC HL,SP");
+		assertThat("Arg_1", 2, equalTo(analyzer.getOpCodeSize()));
+//		assertThat("2 args 2", true, equalTo(analyzer.hasLabel()));
+//		assertThat("2 args 3", true, equalTo(analyzer.hasComment()));
+//		assertThat("2 args 4", true, equalTo(analyzer.hasInstruction()));
+//		
+//		assertThat("2 args 5", true, equalTo(analyzer.hasArguments()));
+//		assertThat("2 argse 6", 2, equalTo(analyzer.getArgumentCount()));
+//		assertThat("2 args 7", argument1, equalTo(analyzer.getArgument1()));
+//		assertThat("2 args 8", argument2, equalTo(analyzer.getArgument2()));
+//
+//		 sourceLine = makeSourceLine("1234 label1: ADC "," ; a comment","A");
+//		analyzer.analyze(sourceLine);
+//		assertThat("1 arg 1", true, equalTo(analyzer.hasLineNumber()));
+//		assertThat("1 arg 2", true, equalTo(analyzer.hasLabel()));
+//		assertThat("1 arg 3", true, equalTo(analyzer.hasComment()));
+//		assertThat("1 arg 4", true, equalTo(analyzer.hasInstruction()));
+//		
+//		assertThat("1 arg 5", true, equalTo(analyzer.hasArguments()));
+//		assertThat("1 arg 6", 1, equalTo(analyzer.getArgumentCount()));
+//		assertThat("1 arg 7", argument1, equalTo(analyzer.getArgument1()));
+//		assertThat("1 arg 8", argument2, equalTo(analyzer.getArgument2()));
+		
+	}//testOpCodeSize
+
+	
+//---------------------------------------------------------------------
 
 	public String makeSourceLine(String part1, String comment, String arg1, String arg2) {
 		argument1 = arg1;
