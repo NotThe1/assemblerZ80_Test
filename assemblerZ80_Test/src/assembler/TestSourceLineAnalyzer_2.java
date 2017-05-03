@@ -74,7 +74,6 @@ public class TestSourceLineAnalyzer_2 {
 //		System.out.println(sourceLine);
 
 		sourceLine = makeSourceLine("1234", "Label:", "EQU", "", ";comments");
-		System.out.println(sourceLine);
 		analyzer.analyze(sourceLine);
 		assertThat("LabelsNoNames  1", true, equalTo(analyzer.isLineActive()));
 
@@ -93,7 +92,6 @@ public class TestSourceLineAnalyzer_2 {
 //		System.out.println(sourceLine);
 
 		sourceLine = makeSourceLine("1234", "Name1", "EQU", "", ";comments");
-		System.out.println(sourceLine);
 		analyzer.analyze(sourceLine);
 		assertThat("testNoLabelsNames  1", true, equalTo(analyzer.isLineActive()));
 
@@ -102,6 +100,45 @@ public class TestSourceLineAnalyzer_2 {
 
 		assertThat("testNoLabelsNames  4", true, equalTo(analyzer.hasName()));
 		assertThat("testNoLabelsNames  5", name, equalTo(analyzer.getName()));
+
+	}// testDirective
+
+	@Test
+	public void testDirectiveArgument() {
+		String sourceLine = makeSourceLine("LineNumber", "Name1", "opCode", "operands", "comments");
+		analyzer.analyze(sourceLine);
+//		System.out.println(sourceLine);
+
+		sourceLine = makeSourceLine("1234", "Name1", "DB", "abc", ";comments");
+		System.out.println(sourceLine);
+		analyzer.analyze(sourceLine);
+		assertThat("dir args  1", true, equalTo(analyzer.isLineActive()));
+
+		assertThat("dir args  2", false, equalTo(analyzer.hasLabel()));
+		assertThat("dir args 3", label, equalTo(analyzer.getLabel()));
+
+		assertThat("dir args  4", true, equalTo(analyzer.hasName()));
+		assertThat("dir args  5", name, equalTo(analyzer.getName()));
+		
+		assertThat("dir args  6", true, equalTo(analyzer.hasArguments()));
+		assertThat("dir args  7", operands, equalTo(analyzer.getArgument1()));
+		
+		
+		sourceLine = makeSourceLine("1234", "Name1", "DB", "'A','B','C'", ";comments");
+		System.out.println(sourceLine);
+		analyzer.analyze(sourceLine);
+		assertThat("dir args  1", true, equalTo(analyzer.isLineActive()));
+
+		assertThat("dir args  2", false, equalTo(analyzer.hasLabel()));
+		assertThat("dir args 3", label, equalTo(analyzer.getLabel()));
+
+		assertThat("dir args  4", true, equalTo(analyzer.hasName()));
+		assertThat("dir args  5", name, equalTo(analyzer.getName()));
+		
+		assertThat("dir args  6", true, equalTo(analyzer.hasArguments()));
+		assertThat("dir args  7", operands, equalTo(analyzer.getArgument1()));
+		
+		
 
 	}// testDirective
 
