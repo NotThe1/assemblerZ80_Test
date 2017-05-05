@@ -22,6 +22,7 @@ public class TestInstructionSet_2 {
 	String arg1, arg2;
 	SourceLineAnalyzer analyzer;
 	String[] instructions ;
+	SourceLineParts slp;
 
 	@Before
 	public void setUp() throws Exception {
@@ -32,39 +33,39 @@ public class TestInstructionSet_2 {
 	@Test
 	public void testLIT_A() {
 		 String line = makeLine( "LD","A","(IX+expression)");
-		analyzer.analyze(line);
-		assertThat("LD  5", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  6", "LD_1", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  5", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  6", "LD_1", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","A","(BC)");
-		analyzer.analyze(line);
-		assertThat("LD  7", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  8", "LD_2", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  7", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  8", "LD_2", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","A","I");
-		analyzer.analyze(line);
-		assertThat("LD  9", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  10", "LD_3", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  9", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  10", "LD_3", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","A","(HL)");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_4", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_4", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","A","B");
-		analyzer.analyze(line);
-		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  4", "LD_4", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  3", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  4", "LD_4", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","A","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  11", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  12", "LD_5", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  11", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  12", "LD_5", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","A","expression");
-		analyzer.analyze(line);
-		assertThat("LD  13", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  14", "LD_6", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  13", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  14", "LD_6", equalTo(slp.getSubOpCode()));
 
 	}//testLIT_A
 	
@@ -73,144 +74,144 @@ public class TestInstructionSet_2 {
 	@Test
 	public void testLIT_HL() {
 		String line = makeLine( "LD","HL","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_7", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_7", equalTo(slp.getSubOpCode()));
 	}//testLIT_HL
 
 	@Test
 	public void testLIT_SP() {
 		String line = makeLine( "LD","SP","HL");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-//		assertThat("LD  2", "LD_8", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+//		assertThat("LD  2", "LD_8", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","SP","IY");
-		analyzer.analyze(line);
-		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  4", "LD_9", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  3", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  4", "LD_9", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","SP","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  5", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  6", "LD_10", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  5", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  6", "LD_10", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","SP","expression");
-		analyzer.analyze(line);
-		assertThat("LD  7", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  8", "LD_11", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  7", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  8", "LD_11", equalTo(slp.getSubOpCode()));
 	}//testLIT_SP
 	
 	@Test
 	public void testIND_BCDE() {
 		String line = makeLine( "LD","(BC)","A");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_12", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_12", equalTo(slp.getSubOpCode()));
 
 	}//testIND_BCDE
 	
 	@Test
 	public void testIND_XYd() {
 		String line = makeLine( "LD","(IX+4)","B");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_13", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_13", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","(IY+ expression)","expression");
-		analyzer.analyze(line);
-		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  4", "LD_14", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  3", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  4", "LD_14", equalTo(slp.getSubOpCode()));
 
 	}//testIND_XYd
 	
 	@Test
 	public void testR8_RI() {
 		String line = makeLine( "LD","I","A");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_15", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_15", equalTo(slp.getSubOpCode()));
 
 	}//testR8_RI
 	
 	@Test
 	public void testR16_SP() {
 		String line = makeLine( "LD","SP","expression");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_11", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_11", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","DE","expression");
-		analyzer.analyze(line);
-		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  4", "LD_17", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  3", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  4", "LD_17", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","BC","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  5", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  6", "LD_16", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  5", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  6", "LD_16", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","HL","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  7", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  8", "LD_7", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  7", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  8", "LD_7", equalTo(slp.getSubOpCode()));
 
 	}//testR16_SP
 
 	@Test
 	public void testR16_XY() {
 		String line = makeLine( "LD","IX","expression");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_19", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_19", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","IY","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  4", "LD_18", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  3", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  4", "LD_18", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","IX","(expression)");
-		analyzer.analyze(line);
-		assertThat("LD  5", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  6", "LD_18", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  5", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  6", "LD_18", equalTo(slp.getSubOpCode()));
 
 	}//testR16_SP
 
 	@Test
 	public void testR8() {
 		String line = makeLine( "LD","B","C");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_20", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_20", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","B","M");
-		analyzer.analyze(line);
-		assertThat("LD  5", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  6", "LD_20", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  5", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  6", "LD_20", equalTo(slp.getSubOpCode()));
 		
 		 line = makeLine( "LD","C","expression");
-		analyzer.analyze(line);
-		assertThat("LD  7", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  8", "LD_22", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  7", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  8", "LD_22", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","E","(IX+expression)");
-		analyzer.analyze(line);
-		assertThat("LD  9", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  10", "LD_21", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  9", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  10", "LD_21", equalTo(slp.getSubOpCode()));
 
 	}//testR8
 
 	@Test
 	public void testIND_HL() {
 		String line = makeLine( "LD","(HL)","B");
-		analyzer.analyze(line);
-		assertThat("LD  1", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  2", "LD_23", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  1", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  2", "LD_23", equalTo(slp.getSubOpCode()));
 
 		 line = makeLine( "LD","(HL)","expression");
-		analyzer.analyze(line);
-		assertThat("LD  3", instruction, equalTo(analyzer.getInstruction()));
-		assertThat("LD  4", "LD_24", equalTo(analyzer.getSubOpCode()));
+		slp = analyzer.analyze(line);
+		assertThat("LD  3", instruction, equalTo(slp.getInstruction()));
+		assertThat("LD  4", "LD_24", equalTo(slp.getSubOpCode()));
 
 	}//testIND_HL
 

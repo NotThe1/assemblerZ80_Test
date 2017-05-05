@@ -14,6 +14,8 @@ public class TestSourceLineAnalyzer_2 {
 	String opCode;
 	String operands;
 	String comment;
+	SourceLineParts slp;
+
 
 	@Before
 	public void setUp() throws Exception {
@@ -25,118 +27,117 @@ public class TestSourceLineAnalyzer_2 {
 	public void testSimpleStuff() {
 
 		String sourceLine = makeSourceLine("LineNumber", "name", "opCode", "operands", "comments");
-		analyzer.analyze(sourceLine);
+		slp = analyzer.analyze(sourceLine);
 //		System.out.println(sourceLine);
 
 		sourceLine = makeSourceLine("1234", "", "", "", ";comments");
-		analyzer.analyze(sourceLine);
-		assertThat("Line Number  1", true, equalTo(analyzer.isLineActive()));
-		assertThat("Line Number 2", true, equalTo(analyzer.hasComment()));
-		assertThat("Line Number 3", true, equalTo(analyzer.hasLineNumber()));
-		assertThat("Line Number 4", lineNumber, equalTo(analyzer.getLineNumberStr()));
-		assertThat("Line Number 5", false, equalTo(analyzer.hasLabel()));
-		assertThat("Line Number 6", false, equalTo(analyzer.hasInstruction()));
-		assertThat("Line Number 7", false, equalTo(analyzer.hasDirective()));
-		assertThat("Line Number 8", false, equalTo(analyzer.hasName()));
+		slp = analyzer.analyze(sourceLine);
+		assertThat("Line Number  1", true, equalTo(slp.isLineActive()));
+		assertThat("Line Number 2", true, equalTo(slp.hasComment()));
+		assertThat("Line Number 4", lineNumber, equalTo(slp.getLineNumberStr()));
+		assertThat("Line Number 5", false, equalTo(slp.hasLabel()));
+		assertThat("Line Number 6", false, equalTo(slp.hasInstruction()));
+		assertThat("Line Number 7", false, equalTo(slp.hasDirective()));
+		assertThat("Line Number 8", false, equalTo(slp.hasName()));
 
 		sourceLine = makeSourceLine("1234", "Label:", "ADC", "A,123", ";comments");
-		analyzer.analyze(sourceLine);
-		assertThat("Label  1", true, equalTo(analyzer.isLineActive()));
-		assertThat("Label  2", true, equalTo(analyzer.hasLabel()));
-		assertThat("Label  3", label, equalTo(analyzer.getLabel()));
-		assertThat("Label  4", opCode, equalTo(analyzer.getInstruction()));
-		assertThat("Label  5", comment, equalTo(analyzer.getComment()));
+		slp = analyzer.analyze(sourceLine);
+		assertThat("Label  1", true, equalTo(slp.isLineActive()));
+		assertThat("Label  2", true, equalTo(slp.hasLabel()));
+		assertThat("Label  3", label, equalTo(slp.getLabel()));
+		assertThat("Label  4", opCode, equalTo(slp.getInstruction()));
+		assertThat("Label  5", comment, equalTo(slp.getComment()));
 
 	}// testSimpleStuff
 
 	@Test
 	public void testNoLabelsNoNames() {
 		String sourceLine = makeSourceLine("LineNumber", "name", "opCode", "operands", "comments");
-		analyzer.analyze(sourceLine);
+		slp = analyzer.analyze(sourceLine);
 //		System.out.println(sourceLine);
 
 		sourceLine = makeSourceLine("1234", "", "EQU", "", ";comments");
-		analyzer.analyze(sourceLine);
-		assertThat("Directive  1", true, equalTo(analyzer.isLineActive()));
+		slp = analyzer.analyze(sourceLine);
+		assertThat("Directive  1", true, equalTo(slp.isLineActive()));
 
-		assertThat("Directive  2", false, equalTo(analyzer.hasLabel()));
-		assertThat("Directive  3", label, equalTo(analyzer.getLabel()));
+		assertThat("Directive  2", false, equalTo(slp.hasLabel()));
+		assertThat("Directive  3", label, equalTo(slp.getLabel()));
 
-		assertThat("Directive  4", false, equalTo(analyzer.hasName()));
-		assertThat("Directive  5", name, equalTo(analyzer.getName()));
+		assertThat("Directive  4", false, equalTo(slp.hasName()));
+		assertThat("Directive  5", name, equalTo(slp.getName()));
 
 	}// testDirective
 
 	@Test
 	public void testLabelsNoNames() {
 		String sourceLine = makeSourceLine("LineNumber", "Label:", "opCode", "operands", "comments");
-		analyzer.analyze(sourceLine);
+		slp = analyzer.analyze(sourceLine);
 //		System.out.println(sourceLine);
 
 		sourceLine = makeSourceLine("1234", "Label:", "EQU", "", ";comments");
-		analyzer.analyze(sourceLine);
-		assertThat("LabelsNoNames  1", true, equalTo(analyzer.isLineActive()));
+		slp = analyzer.analyze(sourceLine);
+		assertThat("LabelsNoNames  1", true, equalTo(slp.isLineActive()));
 
-		assertThat("LabelsNoNames  2", true, equalTo(analyzer.hasLabel()));
-		assertThat("LabelsNoNames  3", label, equalTo(analyzer.getLabel()));
+		assertThat("LabelsNoNames  2", true, equalTo(slp.hasLabel()));
+		assertThat("LabelsNoNames  3", label, equalTo(slp.getLabel()));
 
-		assertThat("LabelsNoNames  4", false, equalTo(analyzer.hasName()));
-		assertThat("LabelsNoNames  5", name, equalTo(analyzer.getName()));
+		assertThat("LabelsNoNames  4", false, equalTo(slp.hasName()));
+		assertThat("LabelsNoNames  5", name, equalTo(slp.getName()));
 
 	}// testDirective
 
 	@Test
 	public void testNoLabelsNames() {
 		String sourceLine = makeSourceLine("LineNumber", "Name1", "opCode", "operands", "comments");
-		analyzer.analyze(sourceLine);
+		slp = analyzer.analyze(sourceLine);
 //		System.out.println(sourceLine);
 
 		sourceLine = makeSourceLine("1234", "Name1", "EQU", "", ";comments");
-		analyzer.analyze(sourceLine);
-		assertThat("testNoLabelsNames  1", true, equalTo(analyzer.isLineActive()));
+		slp = analyzer.analyze(sourceLine);
+		assertThat("testNoLabelsNames  1", true, equalTo(slp.isLineActive()));
 
-		assertThat("testNoLabelsNames  2", false, equalTo(analyzer.hasLabel()));
-		assertThat("testNoLabelsNames  3", label, equalTo(analyzer.getLabel()));
+		assertThat("testNoLabelsNames  2", false, equalTo(slp.hasLabel()));
+		assertThat("testNoLabelsNames  3", label, equalTo(slp.getLabel()));
 
-		assertThat("testNoLabelsNames  4", true, equalTo(analyzer.hasName()));
-		assertThat("testNoLabelsNames  5", name, equalTo(analyzer.getName()));
+		assertThat("testNoLabelsNames  4", true, equalTo(slp.hasName()));
+		assertThat("testNoLabelsNames  5", name, equalTo(slp.getName()));
 
 	}// testDirective
 
 	@Test
 	public void testDirectiveArgument() {
 		String sourceLine = makeSourceLine("LineNumber", "Name1", "opCode", "operands", "comments");
-		analyzer.analyze(sourceLine);
+		slp = analyzer.analyze(sourceLine);
 //		System.out.println(sourceLine);
 
 		sourceLine = makeSourceLine("1234", "Name1", "DB", "abc", ";comments");
 		System.out.println(sourceLine);
-		analyzer.analyze(sourceLine);
-		assertThat("dir args  1", true, equalTo(analyzer.isLineActive()));
+		slp = analyzer.analyze(sourceLine);
+		assertThat("dir args  1", true, equalTo(slp.isLineActive()));
 
-		assertThat("dir args  2", false, equalTo(analyzer.hasLabel()));
-		assertThat("dir args 3", label, equalTo(analyzer.getLabel()));
+		assertThat("dir args  2", false, equalTo(slp.hasLabel()));
+		assertThat("dir args 3", label, equalTo(slp.getLabel()));
 
-		assertThat("dir args  4", true, equalTo(analyzer.hasName()));
-		assertThat("dir args  5", name, equalTo(analyzer.getName()));
+		assertThat("dir args  4", true, equalTo(slp.hasName()));
+		assertThat("dir args  5", name, equalTo(slp.getName()));
 		
-		assertThat("dir args  6", true, equalTo(analyzer.hasArguments()));
-		assertThat("dir args  7", operands, equalTo(analyzer.getArgument1()));
+		assertThat("dir args  6", true, equalTo(slp.hasArguments()));
+		assertThat("dir args  7", operands, equalTo(slp.getArgument1()));
 		
 		
 		sourceLine = makeSourceLine("1234", "Name1", "DB", "'A','B','C'", ";comments");
 		System.out.println(sourceLine);
-		analyzer.analyze(sourceLine);
-		assertThat("dir args  1", true, equalTo(analyzer.isLineActive()));
+		slp = analyzer.analyze(sourceLine);
+		assertThat("dir args  1", true, equalTo(slp.isLineActive()));
 
-		assertThat("dir args  2", false, equalTo(analyzer.hasLabel()));
-		assertThat("dir args 3", label, equalTo(analyzer.getLabel()));
+		assertThat("dir args  2", false, equalTo(slp.hasLabel()));
+		assertThat("dir args 3", label, equalTo(slp.getLabel()));
 
-		assertThat("dir args  4", true, equalTo(analyzer.hasName()));
-		assertThat("dir args  5", name, equalTo(analyzer.getName()));
+		assertThat("dir args  4", true, equalTo(slp.hasName()));
+		assertThat("dir args  5", name, equalTo(slp.getName()));
 		
-		assertThat("dir args  6", true, equalTo(analyzer.hasArguments()));
-		assertThat("dir args  7", operands, equalTo(analyzer.getArgument1()));
+		assertThat("dir args  6", true, equalTo(slp.hasArguments()));
+		assertThat("dir args  7", operands, equalTo(slp.getArgument1()));
 		
 		
 

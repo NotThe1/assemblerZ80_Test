@@ -8,6 +8,8 @@ import org.junit.Test;
 
 public class TestSourceLineAnalyzer_3 {
 	private SourceLineAnalyzer analyzer;
+	SourceLineParts slp;
+
 	@Before
 	public void setUp() throws Exception {
 		analyzer = new SourceLineAnalyzer();
@@ -17,17 +19,17 @@ public class TestSourceLineAnalyzer_3 {
 	public void testOpCodeSizeA() {
 		
 
-		analyzer.analyze("1234  ADC A,(IX+3)  ");
-		assertThat("ADC_1", 3, equalTo(analyzer.getOpCodeSize()));
+		slp = analyzer.analyze("1234  ADC A,(IX+3)  ");
+		assertThat("ADC_1", 3, equalTo(slp.getOpCodeSize()));
 
-		analyzer.analyze("  ADC A,B  ");
-		assertThat("ADC_2", 1, equalTo(analyzer.getOpCodeSize()));
+		slp = analyzer.analyze("  ADC A,B  ");
+		assertThat("ADC_2", 1, equalTo(slp.getOpCodeSize()));
 
-		analyzer.analyze("label:  ADC A,expression  ");
-		assertThat("ADC_3", 2, equalTo(analyzer.getOpCodeSize()));
+		slp = analyzer.analyze("label:  ADC A,expression  ");
+		assertThat("ADC_3", 2, equalTo(slp.getOpCodeSize()));
 
-		analyzer.analyze("  ADC HL,SP  ; comment");
-		assertThat("ADC_4", 2, equalTo(analyzer.getOpCodeSize()));
+		slp = analyzer.analyze("  ADC HL,SP  ; comment");
+		assertThat("ADC_4", 2, equalTo(slp.getOpCodeSize()));
 
 		
 	}//testOpCodeSize
