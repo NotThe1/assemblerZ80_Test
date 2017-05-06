@@ -22,14 +22,14 @@ public class TestInstructionSet_5 {
 	public void setUp() throws Exception {
 		analyzer = new SourceLineAnalyzer();
 		assertThat("handle imports", true, equalTo(true));
-		 instructions = new String[] { "CCF", "CPD", "CPDR", "CPI", "CPIR", "CPL", "DAA", "DI", "EI", "EXX",
-				"HLT", "IND", "INDR", "INI", "INIR", "LDD", "LDDR", "LDI", "LDIR", "NEG", "NOP", "OTDR", "OTIR", "OUTD",
-				"OUTI", "RETI", "RETN", "RLA", "RLCA", "RLD", "RRA", "RRCA", "RRD", "SCF" };
-		 sizes = new int[]{1,2,2,2,2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,1,1,2,1,1,2,1};
+//		 instructions = new String[] { "CCF", "CPD", "CPDR", "CPI", "CPIR", "CPL", "DAA", "DI", "EI", "EXX",
+//				"HLT", "IND", "INDR", "INI", "INIR", "LDD", "LDDR", "LDI", "LDIR", "NEG", "NOP", "OTDR", "OTIR", "OUTD",
+//				"OUTI", "RETI", "RETN", "RLA", "RLCA", "RLD", "RRA", "RRCA", "RRD", "SCF" };
+//		 sizes = new int[]{1,2,2,2,2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,1,1,2,1,1,2,1};
 	}// setUp
 
 	@Test
-	public void testNoArgs() {
+	public void testRET() {
 		String line;
 		String instruction;
 //		instructions = new String[]{"CCF"};
