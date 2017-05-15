@@ -46,8 +46,8 @@ LDD46:	LD B, (IX + dByte)
 XDD4C:	;LD C, IXH*
 XDD4D:	;LD C, IXL*
 LDD4E:	LD C, (IX + dByte)
-LDD54:	;LD D, IXH*
-LDD55:	;LD D, IXL*
+XDD54:	;LD D, IXH*
+XDD55:	;LD D, IXL*
 LDD56:	LD D, (IX + dByte)
 XDD5C:	;LD E, IXH*
 XDD5D:	;LD E, IXL*
