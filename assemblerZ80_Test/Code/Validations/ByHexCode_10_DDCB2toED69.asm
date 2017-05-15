@@ -82,7 +82,7 @@ LED5F:	LD A, R
 LED60:	IN H, (C)
 LED61:	OUT (C), H
 LED62:	SBC HL, HL
-LED22:	LD (aWord), HL	; ED 63 lo hi
+L22:	LD (aWord), HL	; ED 63 lo hi
 XED64:	; NEG*
 XED65:	; RETN*
 XED66:	; IM 0*

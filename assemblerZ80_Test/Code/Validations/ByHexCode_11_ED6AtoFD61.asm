@@ -1,12 +1,12 @@
 ;ByHexCode_11_ED6AtoFD61.asm
 
-nnWord	EQU		01234H	; nn 
+aWord	EQU		01234H	; nn 
 aByte	EQU		5AH		; n
 dByte	EQU		0DDH	; d
 ;    PC  ->	$
 
 LED6A:	ADC HL, HL
-L2A:	LD HL, (nnWord)		; ED 6B lo hi
+L2A:	LD HL, (aWord)		; ED 6B lo hi
 XED6C:	; NEG*
 XED6D:	; RETN*
 XED6E:	; IM 0/1*
@@ -14,14 +14,14 @@ LED6F:	RLD
 XED70:	; IN (C)* / IN F, (C)*
 XED71:	; OUT (C), 0*
 LED72:	SBC HL, SP
-LED73:	LD (nnWord), SP	
+LED73:	LD (aWord), SP	
 XED74:	; NEG*
 XED75:	; RETN*
 XED76:	; IM 1*
 LED78:	IN A, (C)
 LED79:	OUT (C), A
 LED7A:	ADC HL, SP
-LED7B:	LD SP, (nnWord)
+LED7B:	LD SP, (aWord)
 XED7C:	; NEG*
 XED7D:	; RETN*
 XED7E:	; IM 2*
@@ -45,27 +45,27 @@ LEE:		XOR aByte
 LEF:	RST 28h
 LF0:	RET P
 LF1:	POP AF
-LF2:	JP P, nnWord
+LF2:	JP P, aWord
 LF3:	DI
-LF4:	CALL P, nnWord
+LF4:	CALL P, aWord
 LF5:	PUSH AF
 LF6:	OR aByte
 LF7:	RST 30h
 LF8:	RET M
 LF9:	LD SP, HL
-LFA:	JP M, nnWord
+LFA:	JP M, aWord
 LFB:	EI
-LFC	CALL M, nnWord
+LFC	CALL M, aWord
 LFD09:	ADD IY, BC
 LFD19:	ADD IY, DE
-LFD21:	LD IY, nnWord
-LFD22:	LD (nnWord), IY
+LFD21:	LD IY, aWord
+LFD22:	LD (aWord), IY
 LFD23:	INC IY
 XFD24:	; INC IYH*
 XFD25:	; DEC IYH*
 XFD26:	; LD IYH, n*
 LFD29:	ADD IY, IY
-LFD2A:	LD IY, (nnWord)
+LFD2A:	LD IY, (aWord)
 LFD2B:	DEC IY
 XFD2C:	; INC IYL*
 XFD2D:	; DEC IYL*
