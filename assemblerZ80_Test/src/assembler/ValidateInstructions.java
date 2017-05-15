@@ -1,7 +1,9 @@
 package assembler;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -75,31 +77,72 @@ public class ValidateInstructions {
 
 	/* Standard Stuff */
 
+	private void updateStatus(int passed, int failed) {
+
+		if (failed != 0) {
+			lblStatus.setForeground(Color.RED);
+		} else {
+			lblStatus.setForeground(Color.BLACK);
+		} // if
+		String stat = String.format("%d Lines of Code, %d Passed, %d Failed", passed + failed, passed, failed);
+		lblStatus.setText(stat);
+	}
+
 	private void doBtnOne() {
+		int passed = 0;
+		int failed = 0;
+		updateStatus(passed, failed);
+
 		txtLog.setText(EMPTY_STRING);
 		scanner = null;
 		try {
 			scanner = new Scanner(asmSourceFile);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		Matcher matcher = null;
-		Pattern pattern = Pattern.compile("L..:");
+		} //
+		Matcher matcherTarget = null;
+		Pattern patternTarget = Pattern.compile("(L.{2}:)|(L.{4}:)|(L.{8}:)");
+		Matcher matcherPreCode = null;
+		Pattern patternPreCode = Pattern.compile("[0-9]{4}:\\s[0-9A-F]{4}\\s");
 		String originalLine = null;
-		String subCode = null;
+		String asmCode, targetCode;
+		int opCodeSize = 0;
+		String reportLine,indicator;
 		while (scanner.hasNextLine()) {
 			originalLine = scanner.nextLine();
-			matcher = pattern.matcher(originalLine);
-			if (matcher.find()) {
+			matcherTarget = patternTarget.matcher(originalLine);
+			if (matcherTarget.find()) {
+
+				matcherPreCode = patternPreCode.matcher(originalLine);
+				asmCode = matcherPreCode.replaceFirst(EMPTY_STRING);
+				asmCode = asmCode.replace(SPACE, EMPTY_STRING);
+
+				if (matcherTarget.group(1) != null) {
+					opCodeSize = 2;
+				} // if 2x
+				if (matcherTarget.group(2) != null) {
+					opCodeSize = 4;
+				} // if 4x
+				if (matcherTarget.group(3) != null) {
+					opCodeSize = 8;
+				} // if 3X
+
+				targetCode = matcherTarget.group().substring(1, 1 + opCodeSize).toUpperCase();
+				asmCode = asmCode.substring(0, opCodeSize);
+				if (asmCode.equals(targetCode)) {
+					passed++;
+					indicator = EMPTY_STRING;
+				} else {
+					failed++;
+					indicator = "*****";
+				}
+				updateStatus(passed, failed);
 				
-//				subCode = originalLine.substring(5, 7);
-//				txtLog.append("XFDCBdd" + subCode + ": " );
-				txtLog.append(originalLine + System.lineSeparator());
-			} else{
-//				txtLog.append(originalLine + System.lineSeparator());
-			}//
-		
+				reportLine = String.format("%-5s %-8s = %s%n", indicator,asmCode,targetCode);
+				txtLog.append(reportLine);
+
+			} // if
+
 		} // try
 		txtLog.setCaretPosition(0);
 	}// doBtnOne
@@ -109,7 +152,7 @@ public class ValidateInstructions {
 	}// doBtnTwo
 
 	private void doBtnThree() {
-		
+
 	}// doBtnThree
 
 	private void doBtnFour() {
@@ -168,7 +211,7 @@ public class ValidateInstructions {
 		myPrefs.putInt("Divider", splitPane1.getDividerLocation());
 
 		myPrefs.put("defaultDirectory", defaultDirectory);
-myPrefs.put("LastFile", sourceFileFullName);
+		myPrefs.put("LastFile", sourceFileFullName);
 
 		myPrefs = null;
 
@@ -229,7 +272,7 @@ myPrefs.put("LastFile", sourceFileFullName);
 		gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		btnOne = new JButton("Button 1");
+		btnOne = new JButton("Validate");
 		btnOne.setMinimumSize(new Dimension(100, 20));
 		GridBagConstraints gbc_btnOne = new GridBagConstraints();
 		gbc_btnOne.insets = new Insets(0, 0, 0, 5);
@@ -324,6 +367,7 @@ myPrefs.put("LastFile", sourceFileFullName);
 		panelRight.add(scrollPane, gbc_scrollPane);
 
 		txtLog = new JTextArea();
+		txtLog.setFont(new Font("Courier New", Font.PLAIN, 14));
 		txtLog.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -347,6 +391,10 @@ myPrefs.put("LastFile", sourceFileFullName);
 		gbc_panelStatus.gridx = 0;
 		gbc_panelStatus.gridy = 2;
 		frmTemplate.getContentPane().add(panelStatus, gbc_panelStatus);
+
+		lblStatus = new JLabel("Status");
+		lblStatus.setFont(new Font("Courier New", Font.PLAIN, 16));
+		panelStatus.add(lblStatus);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmTemplate.setJMenuBar(menuBar);
@@ -412,11 +460,13 @@ myPrefs.put("LastFile", sourceFileFullName);
 		mnuFile.add(mnuFileExit);
 
 	}// initialize
+
 	private final static String EMPTY_STRING = "";
+	private final static String SPACE = " ";
 	private final static String SUFFIX_LISTING = "list";
 	private final static String SUFFIX_ASSEMBLER = "asm";
 	private static final String FILE_SEPARATOR = File.separator;
 	private static final String DEFAULT_DIRECTORY = "." + FILE_SEPARATOR + "Code" + FILE_SEPARATOR + ".";
-
+	private JLabel lblStatus;
 
 }// class GUItemplate
