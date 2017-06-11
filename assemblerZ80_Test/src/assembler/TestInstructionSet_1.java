@@ -304,7 +304,7 @@ SourceLineParts slp;
 		assertThat("JP  1", instruction, equalTo(slp.getInstruction()));
 		assertThat("JP  2", "JP_1", equalTo(slp.getSubOpCode()));
 		
-		 line = makeLine( "JP","(XY)");
+		 line = makeLine( "JP","(IY)");
 		slp = analyzer.analyze(line);
 		assertThat("JP  3", instruction, equalTo(slp.getInstruction()));
 		assertThat("JP  4", "JP_2", equalTo(slp.getSubOpCode()));
