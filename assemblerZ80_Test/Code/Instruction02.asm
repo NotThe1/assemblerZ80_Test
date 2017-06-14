@@ -10,7 +10,7 @@ Start:
 		JR		NZ, 10H		; 20 db
 		JR		Z, 20H		; 28 db
 		JR		NC, -1		; 30 db
-		JR		C, -2		; 28 db
+		JR		C, -2		; 38 db
 ;JR_2
 		JR		10 + 10H	; 18 db
 ;.....................
