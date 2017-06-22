@@ -1,0 +1,45 @@
+ADD A, r
+ADD A, (HL)
+ADD A, (IX + d)
+ADD A, (IY + d)
+ADD A, n
+
+S is set if result is negative; reset otherwise
+Z is set if result is zero; reset otherwise
+H is set if carry from bit 3; reset otherwise
+P/V is set if overflow; reset otherwise
+N is reset
+C is set if carry from bit 7; reset otherwise
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ADC A, s
+
+S is set if result is negative; reset otherwise
+Z is set if result is zero; reset otherwise
+H is set if carry from bit 3; reset otherwise
+P/V is set if overflow; reset otherwise
+N is reset
+C is set if carry from bit 7: reset otherwise
+
+ADC HL, ss
+
+S is set if result is negative; reset otherwise
+Z is set if result is zero; reset otherwise
+R is set if carry out of bit 11;. reset otherwise
+P/V is set if overflow; reset otherwise
+N is reset
+C is set if carry from bit 15; reset otherwise

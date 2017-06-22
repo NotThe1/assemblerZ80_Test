@@ -1,98 +1,59 @@
 ;decodeFlags.asm
 
-;PSTRING		EQU 0852H
-;NEWLINE		EQU 088CH
-;DELAY		EQU 0CE1H
-;COUT		EQU 0861H
-
 
 		ORG		(($/10H) + 1) * 10H
-		
-;Start:
-;		CALL	ClearBuffer
-;
-;		LD		A,0FFH
-;		INC		A
-;		PUSH	AF
-;		CALL	AddByteToBufferSpace
-;		POP		AF
-;		
-;		PUSH	AF
-;		CALL	DecodeFlags
-;		POP		AF
-;		INC		A
-;		PUSH	AF
-;		CALL	DecodeFlags
-;		POP		AF
-;		INC		A
-;		PUSH	AF
-;		CALL	DecodeFlags
-		
-;MAIN:		
-;		CALL	INIT ; SET UART MARK LEVEL
-;
-;
-;		CALL	NEWLINE
-;		CALL	PrintBuffer	
-;		RST		38H
-;		
-;INIT:
-;		LD		A,0FFH
-;		CALL	COUT
-;		CALL	DELAY
-;		RET
+	
 		
 DecodeFlags:
-		PUSH	AF				; preserve condition codes
-		POP		DE				; move flags to DE
+; Will decode the condition codes and put their values in the default buffer.
+; Upper case signifies a 1 and lower case a 0;
+; Upon return AF will be restored to its original value
+
+		PUSH	AF					; preserve condition codes
+		POP		DE					; move flags to DE
 		
 		PUSH	DE
-		CALL	GetSign			; get flag state
-		CALL	AddToBuffer		; put into buffer
+		CALL	GetSign				; get Sign flag state
+		CALL	AddToBuffer			; put into buffer
 		POP		DE
 		
 		PUSH	DE
-		CALL	GetZero			; get flag state
-		CALL	AddToBuffer		; put into buffer
+		CALL	GetZero				; get Zro flag state
+		CALL	AddToBuffer			; put into buffer
 		POP		DE
 		
 		PUSH	DE
-		CALL	Get5			; get flag state
-		CALL	AddToBuffer		; put into buffer
+		CALL	Get5				; get Bit5 flag state
+		CALL	AddToBuffer			; put into buffer
 		POP		DE
 		
 		PUSH	DE
-		CALL	GetHalf			; get flag state
-		CALL	AddToBuffer		; put into buffer
+		CALL	GetHalf				; get Half flag state
+		CALL	AddToBuffer			; put into buffer
 		POP		DE
 		
 		PUSH	DE
-		CALL	Get3			; get flag state
-		CALL	AddToBuffer		; put into buffer
-		POP		DE
-		
-;		PUSH	DE
-;		CALL	GetOverflow			; get flag state
-;		CALL	AddToBuffer		; put into buffer
-;		POP		DE
-		
-		PUSH	DE
-		CALL	GetParity			; get flag state
-		CALL	AddToBuffer		; put into buffer
+		CALL	Get3				; get Bit3 flag state
+		CALL	AddToBuffer			; put into buffer
 		POP		DE
 		
 		PUSH	DE
-		CALL	GetAS			; get flag state
-		CALL	AddToBuffer		; put into buffer
+		CALL	GetParity			; get Parity flag state
+;		CALL	GetOverflow			; get Overflowflag state
+		CALL	AddToBuffer			; put into buffer
 		POP		DE
 		
 		PUSH	DE
-		CALL	GetCarry		; get flag state
-		CALL	AddToBuffer		; put into buffer
+		CALL	GetAS				; get Add/Subtract flag(N) state
+		CALL	AddToBuffer			; put into buffer
 		POP		DE
 		
-		CALL	AddLFToBuffer	; newline
+		PUSH	DE
+		CALL	GetCarry			; get Carry flag state
+		CALL	AddToBuffer			; put into buffer
 		
+		CALL	AddLFToBuffer		; ad in a newline
+		POP		AF					; restore AF from calling code
 		RET
 
 GetCarry:
@@ -166,15 +127,16 @@ GetSign:
 		
 		
 		
-bitCarry		EQU		0			; carry position		
-bitAS			EQU		1			; Add/Subtract position		
-bitParity		EQU		2			; Parity/Overflow position	
-bitOverflow		EQU		2			; Overflow/Parity position			
-bit3			EQU		3			; bit 3 position		
-bitHalf			EQU		4			; half carry position		
-bit5			EQU		5			; bit 5 position		
-bitZero			EQU		6			; zero position		
 bitSign			EQU		7			; sign position	
+bitZero			EQU		6			; zero position		
+bit5			EQU		5			; bit 5 position		
+bitHalf			EQU		4			; half carry position		
+bit3			EQU		3			; bit 3 position		
+bitOverflow		EQU		2			; Overflow/Parity position			
+bitParity		EQU		2			; Parity/Overflow position	
+bitAS			EQU		1			; Add/Subtract position		
+bitCarry		EQU		0			; carry position		
+
 
 FlagSign		EQU		053H		; S
 FlagZero		EQU		05AH		; Z
