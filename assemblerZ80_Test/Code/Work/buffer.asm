@@ -1,12 +1,17 @@
 ;bufferTest1.asm
 mPrintString	EQU		 0852H		; monitor's PSTRING
 
-;		ORG		1900H
+		ORG		1900H
+;		ORG		(($/10H) + 1) * 10H	
+		
 BufferSize 		EQU	80;
 
 
 
-		ORG		(($/10H) + 1) * 10H
+
+PrintBufferAndClear:
+		CALL PrintBuffer			; print and fall thru
+		
 ClearBuffer:
 		LD		HL, Buffer			; Point at Default
 ClearBufferX:
@@ -18,12 +23,16 @@ ClearBuffer1:
 		DJNZ	ClearBuffer1		; loop thru buffer
 		RET
 		
+PrintBufferLF:
+; end print with a new line
+		CALL AddLFToBuffer
+		
 PrintBuffer:
 ; Sends the default buffer to the Serial Device
 		LD		IX, Buffer+1		; point at the data
 		CALL	mPrintString		; display
 		RET
-
+		
 AddLFToBuffer:
 ; puts newline in Buffer
 		LD		A,0DH					; CR

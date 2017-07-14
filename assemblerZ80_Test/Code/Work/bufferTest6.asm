@@ -52,7 +52,7 @@ INIT:
 		RET
 		
 bSave:	ds	2
-		
+RATS:	DS		40		
 Title:
 		DB		'A',00
 		DB		'16 Bit',00

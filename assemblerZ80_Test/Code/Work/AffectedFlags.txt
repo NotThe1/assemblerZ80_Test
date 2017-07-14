@@ -19,8 +19,15 @@ C is set if carry from bit 7; reset otherwise
 
 
 
-
-
+ADD HL, ss
+ADD IX, pp
+ADD IY, rr
+S is not affected
+Z is not affected
+H is set if carry out of bit 11; reset otherwise
+P/V is not affected
+N is reset
+C is set if carry from bit 15; reset otherwise
 
 
 
