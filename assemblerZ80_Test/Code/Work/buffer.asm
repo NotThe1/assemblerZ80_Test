@@ -1,8 +1,8 @@
 ;bufferTest1.asm
 mPrintString	EQU		 0852H		; monitor's PSTRING
 
-		ORG		1900H
-;		ORG		(($/10H) + 1) * 10H	
+;		ORG		1900H
+		ORG		(($/10H) + 1) * 10H	
 		
 BufferSize 		EQU	80;
 

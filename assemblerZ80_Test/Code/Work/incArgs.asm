@@ -11,6 +11,8 @@ InitArgPair:
 		LD		(arg2L),A
 		LD		(arg2H),A
 		RET
+		
+	
 
 IncArg1:
 ; On return next value in ACC. CY set means limit exceeded, else CY reset  value OK.
@@ -20,7 +22,7 @@ IncArg1:
 		INC		(HL)				; increment lo nibble
 		LD		A,(HL)		
 		CP		10				; limit reached ? MAX_UNIT	EQU		10;
-		JP		C,IncArg1A 		; No, OK 
+		JP		C,GetArg1 		; No, OK 
 ; else increment upper nibble	
 		XOR		A				; zero out A
 		LD		(arg1L),A		; set low nibble to zero
@@ -29,10 +31,20 @@ IncArg1:
 		INC		(HL)          
 		LD		A,(HL)      
 		CP		10 				; MAX_TENS	EQU		10;    
-		JP		C,IncArg1A 		; OK 
+		JP		C,GetArg1 		; OK 
+;		XOR		A				; clear the Acc
+;		LD		(arg1L),A
+;		LD		(arg1H),A		; init Arg 1 value
+		
+		LD		HL,arg2H		; * if adding
+		LD		DE,arg1H		; * this removes
+		LD		BC,0002			; * redundant
+		LDIR					; * value pairs ( 1+2 = 2+1)
+
+
 		SCF                 
 		RET						; return with CY set indicating limit exceeded
-IncArg1A:                   
+GetArg1:                   
 		LD		A,(arg1H)   
 		SLA		A           
 		SLA		A           
@@ -57,7 +69,7 @@ IncArg2:
 		INC		(HL)				; increment lo nibble
 		LD		A,(HL)		
 		CP		10					; limit reached ? MAX_UNIT	EQU		10;
-		JP		C,IncArg2A 			; No, OK 
+		JP		C,GetArg2 			; No, OK 
 ; else increment upper nibble	
 		XOR		A					; zero out A
 		LD		(arg2L),A			; set low nibble to zero
@@ -66,16 +78,18 @@ IncArg2:
 		INC		(HL)          
 		LD		A,(HL)      
 		CP		10 					; MAX_TENS	EQU		10;    
-		JP		C,IncArg2A 			; OK 
+		JP		C,GetArg2 			; OK 
+		
+		
 		SCF                 
 		RET							; return with CY set indicating limit exceeded
-IncArg2A:                   
-		LD		A,(arg1H)   
+GetArg2:                   
+		LD		A,(arg2H)   
 		SLA		A           
 		SLA		A           
 		SLA		A           
 		SLA		A					; move nibble to bits 7-4
-		LD		HL,arg1L    
+		LD		HL,arg2L    
 		ADD		A,(HL)      
 		SCF                 
 		CCF                 
