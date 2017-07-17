@@ -32,14 +32,16 @@ IncArg1:
 		LD		A,(HL)      
 		CP		10 				; MAX_TENS	EQU		10;    
 		JP		C,GetArg1 		; OK 
-;		XOR		A				; clear the Acc
-;		LD		(arg1L),A
-;		LD		(arg1H),A		; init Arg 1 value
-		
+
+;---------------------------------------------------------------------------------		
 		LD		HL,arg2H		; * if adding
 		LD		DE,arg1H		; * this removes
 		LD		BC,0002			; * redundant
 		LDIR					; * value pairs ( 1+2 = 2+1)
+;---------------------------------------------------------------------------------
+;		XOR		A				; * this
+;		LD		(arg1H),A		; * not skip redundant values ( 1-2) != (2-1)
+;---------------------------------------------------------------------------------		
 
 
 		SCF                 

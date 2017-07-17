@@ -1,4 +1,4 @@
-;	testDAA.asm
+;	testDAA_INC_DEC.asm
 
 PSTRING		EQU		0852H
 NEWLINE		EQU		088CH
@@ -6,13 +6,9 @@ DELAY		EQU		0CE1H
 COUT		EQU		0861H
 		
 			
-;ARG1_MAX	EQU		0
-;ARG2_MAX	EQU		100
-;		
-;NINE		EQU		10;
-
 			ORG		1800H
 Start:
+		LD		SP,TopOfStack
 		CALL	ClearBuffer
 		CALL	INIT
 		CALL	NEWLINE
@@ -20,13 +16,13 @@ Start:
 		CALL	InitArgPair				; set values to Zero
 
 Loop1:		
-		CALL	PutArgsinBuffer
+		CALL	GetArg1
+		CALL	AddByteToBufferSpace	; arg2 is in ACC
 
-		;		CALL	GetArg1
-;		CP		22H
-;		CALL	Z,LineBreak
+
+
 ;----------------------------
-		CALL	PerformAdd
+		CALL	PerformINCorDEC
 		CALL	PerformDAA
 		CALL	LineBreak
 
@@ -35,18 +31,18 @@ Loop1:
 		CALL	IncArg1
 
 		JR		NC,Loop1
-		CALL	IncArg2
-		JR		NC,Loop1
+;		CALL	IncArg2
+;		JR		NC,Loop1
 		
 
 		RST		38H
 		JP		Start
 ;------------------------------------------		
 PerformDAA:
-		CALL	GetArg1
-		LD		B,A						; arg1 in B
-		CALL	GetArg2					; arg2 in ACC
-		ADD		A,B						; add them
+		CALL	GetArg1					; arg1 in ACC
+;		INC		A						; Increment It 
+		DEC		A						; Decrement It
+
 		DAA								; * star of the show
 		PUSH	AF						; save Flag result
 		PUSH	AF						; save Flag result
@@ -69,11 +65,10 @@ HalfCarrySet1:
 		CALL	AddSpaceToBuffer
 		RET
 
-PerformAdd:
-		CALL	GetArg1
-		LD		B,A						; arg1 in B
-		CALL	GetArg2					; arg2 in ACC
-		ADD		A,B						; add them
+PerformINCorDEC:
+		CALL	GetArg1					; arg1 in ACC
+;		INC		A						; Increment It
+		DEC		A						; Decrement It
 		PUSH	AF						; save Flag result
 		PUSH	AF						; save Flag result
 		CALL	AddByteToBufferSpace	; Sum is in ACC
@@ -98,28 +93,22 @@ HalfCarrySet:
 LineBreak:
 		LD		A,(arg1L)
 		CP		0
-		CALL	Z,INIT
+		CALL	Z,DELAY
 		CALL	AddLFToBuffer
 		CALL	PrintBufferAndClear
 		RET
 		
-PutArgsinBuffer:
-		CALL	GetArg2
-		CALL	AddByteToBuffer		; arg1 is in ACC
-		LD		A,02BH					; +
-		CALL	AddToBuffer
-		CALL	GetArg1
-		CALL	AddByteToBufferSpace	; arg2 is in ACC
-		LD		A,03DH					; =
-		CALL	AddToBuffer
-		CALL	AddSpaceToBuffer
-		RET
+
 INIT:
-		LD		A,020H
-		CALL	COUT
+;		LD		A,020H
+;		CALL	COUT
 		CALL	DELAY
 		RET
 		
 $INCLUDE incArgs.asm
 
-$INCLUDE buffer.asm		
+$INCLUDE buffer.asm	
+
+		ORG		(($/10H) + 1) * 10H	
+		DS		0100H
+TopOfStack:
