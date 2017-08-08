@@ -1,4 +1,4 @@
-;	testDAA_SUB.asm
+;	testDAA_ADD.asm
 
 PSTRING		EQU		0852H
 NEWLINE		EQU		088CH
@@ -27,7 +27,7 @@ Loop1:
 ;		CP		22H
 ;		CALL	Z,LineBreak
 ;----------------------------
-		CALL	PerformSub
+		CALL	PerformAdd
 		CALL	PerformDAA
 		CALL	LineBreak
 
@@ -47,7 +47,7 @@ PerformDAA:
 		CALL	GetArg1
 		LD		B,A						; arg1 in B
 		CALL	GetArg2					; arg2 in ACC
-		SUB		B						; Subtract them
+		ADD		A,B						; Add them
 		DAA								; * star of the show
 		PUSH	AF						; save Flag result
 		PUSH	AF						; save Flag result
@@ -70,11 +70,11 @@ HalfCarrySet1:
 		CALL	AddSpaceToBuffer
 		RET
 
-PerformSub:
+PerformAdd:
 		CALL	GetArg1
 		LD		B,A						; arg1 in B
 		CALL	GetArg2					; arg2 in ACC
-		SUB		B						; Sub them
+		ADD		A,B						; Sub them
 		PUSH	AF						; save Flag result
 		PUSH	AF						; save Flag result
 		CALL	AddByteToBufferSpace	; Sum is in ACC
@@ -99,7 +99,7 @@ HalfCarrySet:
 LineBreak:
 		LD		A,(arg1L)
 		CP		0
-		CALL	Z,INIT
+		CALL	Z,DELAY
 		CALL	AddLFToBuffer
 		CALL	PrintBufferAndClear
 		RET
@@ -107,7 +107,8 @@ LineBreak:
 PutArgsinBuffer:
 		CALL	GetArg2
 		CALL	AddByteToBuffer		; arg1 is in ACC
-		LD		A,02DH					; -
+;		LD		A,02DH					; -
+		LD		A,02BH					; +
 		CALL	AddToBuffer
 		CALL	GetArg1
 		CALL	AddByteToBufferSpace	; arg2 is in ACC

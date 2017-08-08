@@ -2,11 +2,9 @@
 mPrintString	EQU		 0852H		; monitor's PSTRING
 
 ;		ORG		1900H
-		ORG		(($/10H) + 1) * 10H	
+;		ORG		(($/10H) + 2) * 10H	
 		
 BufferSize 		EQU	80;
-
-
 
 
 PrintBufferAndClear:
@@ -21,6 +19,11 @@ ClearBuffer1:
 		LD		(HL),A
 		INC		HL
 		DJNZ	ClearBuffer1		; loop thru buffer
+		RET
+		
+PrintBufferLFandClear:
+		CALL	AddLFToBuffer
+		CALL	PrintBufferAndClear
 		RET
 		
 PrintBufferLF:
@@ -55,6 +58,7 @@ AddNibbleToBuffer0:
 
 
 AddByteToBuffer:
+; value in ACC
 		RRC		A
 		RRC		A
 		RRC		A
@@ -70,6 +74,22 @@ AddByteToBuffer:
 AddByteToBufferSpace:
 ; Add byte and Space to buffer
 		CALL	AddByteToBuffer
+		CALL	AddSpaceToBuffer
+		RET
+		
+AddWordToBuffer:
+;Value in HL
+		PUSH	HL					; save for L's Value
+		LD		A,H					; get MSB
+		CALL	AddByteToBuffer		; put it into buffer
+		POP		HL
+		LD		A,L					; get LSB
+		CALL	AddByteToBuffer		; put it into buffer
+		RET
+		
+AddWordToBufferSpace:
+;Value in HL
+		CALL	AddWordToBuffer
 		CALL	AddSpaceToBuffer
 		RET
 		

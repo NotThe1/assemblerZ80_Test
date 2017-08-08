@@ -99,7 +99,7 @@ HalfCarrySet:
 LineBreak:
 		LD		A,(arg1L)
 		CP		0
-		CALL	Z,INIT
+		CALL	Z,DELAY
 		CALL	AddLFToBuffer
 		CALL	PrintBufferAndClear
 		RET
