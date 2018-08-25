@@ -41,12 +41,12 @@ PerformCP:
 		CALL	GetArg2					; arg2 in Acc
 		LD		B,A						; move it to B reg
 		CALL	GetArg1					; arg1 in Acc
-		CP								; do the compare
+		CP		B						; do the compare
 		
 		
 RecordFlags:
 		PUSH	AF						; save Flag result
-		CALL	AddByteToBufferSpace	; result is in ACC
+;		CALL	AddByteToBufferSpace	; result is in ACC
 		
 ;sign flag		
 		POP		DE						; get flags so we can test
