@@ -1,0 +1,18 @@
+; testCodes30_3F.asm
+
+	JR NC,0AAH
+	LD SP,01234H
+	LD (0ABCDH),A
+	INC SP
+	INC (HL)
+	DEC (HL)
+	LD (HL),04H
+	SCF
+	JR C,5
+	ADD HL,SP
+	LD A,(0AA55H)
+	DEC SP
+	INC A
+	DEC A
+	LD A,0FFH
+	CCF

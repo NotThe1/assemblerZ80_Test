@@ -1,0 +1,18 @@
+; testCodes20_2F.asm
+
+	JR NZ,0AAH
+	LD HL,01234H
+	LD (0ABCDH),HL
+	INC HL
+	INC H
+	DEC H
+	LD H,07
+	DAA
+	JR Z,5
+	ADD HL,HL
+	LD HL,(0AA55H)
+	DEC HL
+	INC L
+	DEC L
+	LD L,0FFH
+	CPL
