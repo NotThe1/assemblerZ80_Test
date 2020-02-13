@@ -85,7 +85,7 @@ public class TestInstructionSet_4 {
 			assertThat("subOpCode " + i, instruction + "_0", equalTo(subOpCode));
 			assertThat("size " + i, sizes[i], equalTo(slp.getOpCodeSize()));
 
-			assertArrayEquals("Base Codes " + i, (byte[]) baseCodes[i], subInstructionSet.getBaseCodes(subOpCode));
+			assertArrayEquals("Base Codes " + i, (byte[]) baseCodes[i], SubInstructionSet.getBaseCodes(subOpCode));
 		}
 
 	}// testCCF
@@ -107,7 +107,7 @@ public class TestInstructionSet_4 {
 		return makeLine(instruction, arg1, "");
 	}// makeLine
 
-	private String makeLine(String instruction) {
-		return makeLine(instruction, "", "");
-	}// makeLine
+//	private String makeLine(String instruction) {
+//		return makeLine(instruction, "", "");
+//	}// makeLine
 }// class TestInstructionSet_4

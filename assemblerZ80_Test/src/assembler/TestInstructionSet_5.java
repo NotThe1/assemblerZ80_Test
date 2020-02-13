@@ -63,7 +63,7 @@ public class TestInstructionSet_5 {
 		return makeLine(instruction, arg1, "");
 	}// makeLine
 
-	private String makeLine(String instruction) {
-		return makeLine(instruction, "", "");
-	}// makeLine
+//	private String makeLine(String instruction) {
+//		return makeLine(instruction, "", "");
+//	}// makeLine
 }// class TestInstructionSet_5

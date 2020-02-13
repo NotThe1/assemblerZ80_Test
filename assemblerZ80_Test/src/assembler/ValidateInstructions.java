@@ -167,14 +167,18 @@ public class ValidateInstructions {
 	}// doFileNew
 
 	private void doFileOpen() {
-		JFileChooser chooserOpen = MyFileChooser.getFilePicker(defaultDirectory, "Assembler Source Code",
-				SUFFIX_LISTING); // SUFFIX_ASSEMBLER - SUFFIX_LISTING
-		if (chooserOpen.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+//		JFileChooser chooserOpen = MyFileChooser.getFilePicker(defaultDirectory, "Assembler Source Code",
+//				SUFFIX_LISTING); // SUFFIX_ASSEMBLER - SUFFIX_LISTING
+		JFileChooser chooserOpen = new JFileChooser(defaultDirectory);	
+		
+		if (chooserOpen.showOpenDialog(frmTemplate) != JFileChooser.APPROVE_OPTION) {
 			System.out.printf("%s%n", "You cancelled the file open");
 		} else {
 			// txtSource.setText("");
 			// txtListing.setText("");
 			asmSourceFile = chooserOpen.getSelectedFile();
+			defaultDirectory = asmSourceFile.getParent();
+			
 			prepareSourceFile(asmSourceFile);
 
 			// outputPathAndBase = defaultDirectory + FILE_SEPARATOR + sourceFileBase;
@@ -463,8 +467,8 @@ public class ValidateInstructions {
 
 	private final static String EMPTY_STRING = "";
 	private final static String SPACE = " ";
-	private final static String SUFFIX_LISTING = "list";
-	private final static String SUFFIX_ASSEMBLER = "asm";
+//	private final static String SUFFIX_LISTING = "list";
+//	private final static String SUFFIX_ASSEMBLER = "asm";
 	private static final String FILE_SEPARATOR = File.separator;
 	private static final String DEFAULT_DIRECTORY = "." + FILE_SEPARATOR + "Code" + FILE_SEPARATOR + ".";
 	private JLabel lblStatus;

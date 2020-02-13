@@ -229,11 +229,11 @@ public class TestInstructionSet_2 {
 		return ans;
 	}// makeLine
 
-	private String makeLine(String instruction, String arg1) {
-		return makeLine(instruction, arg1, "");
-	}// makeLine
-
-	private String makeLine(String instruction) {
-		return makeLine(instruction, "", "");
-	}// makeLine
+//	private String makeLine(String instruction, String arg1) {
+//		return makeLine(instruction, arg1, "");
+//	}// makeLine
+//
+//	private String makeLine(String instruction) {
+//		return makeLine(instruction, "", "");
+//	}// makeLine
 }// class TestInstructionSet_2

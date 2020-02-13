@@ -359,8 +359,8 @@ SourceLineParts slp;
 		return makeLine(instruction,arg1,"");
 	}//makeLine
 	
-	private String makeLine(String instruction){	
-		return makeLine(instruction,"","");
-	}//makeLine
+//	private String makeLine(String instruction){	
+//		return makeLine(instruction,"","");
+//	}//makeLine
 
 }

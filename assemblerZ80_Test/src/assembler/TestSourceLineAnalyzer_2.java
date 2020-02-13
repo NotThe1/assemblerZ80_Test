@@ -147,7 +147,7 @@ public class TestSourceLineAnalyzer_2 {
 
 	private static final String EMPTY_STRING = "";
 	private static final String SPACE = " ";
-	private static final String TAB2 = "		";
+//	private static final String TAB2 = "		";
 
 	public String makeSourceLine(String lineNumber, String name, String opCode, String operands, String comments) {
 		StringBuilder sb = new StringBuilder();
